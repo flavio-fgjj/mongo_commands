@@ -21,7 +21,7 @@ show dbs
 
 show collections
 
-db.billingCycles.insert({name: 'Janeiro/17', month: 1, year: 2017})
+db.billingCycles.insert({name: 'Janeiro/17', month: 1, year: 2017, date: new Date()})
 
 db.billingCycles.save({name: 'Fevereiro/17', month: 2, year: 2017, day: 2})
 
@@ -46,6 +46,8 @@ db.billingCycles.find({year: 2017}).skip(2).limit(1)
 db.billingCycles.save({name: 'Abril/17', month: 4, year: 2017, day: 4, hour: 16, credits: [{name: 'Salario', value: 5000}], debts: [{name: 'Luz', value: 100, status: 'PAGO'}, {name: 'Internet', value: 90, status: 'PENDENTE'}]})
 
 db.billingCycles.find({year: 2017}).pretty()
+
+db.words.find({date: {$gte: new Date("2022-06-20T00:00:00.000Z"), $lt: new Date("2022-06-20T12:00:00.000Z")}}).pretty()
 
 ----- advanced commands -----
 
