@@ -1,0 +1,68 @@
+### BASIC COMMANDS --> MONGO DB ###
+
+-- at terminal:
+
+
+sudo service mongod start
+
+mongod (to up and running the server)
+
+mongo (in a terminal to connect to server)
+
+----- basic commands -----
+
+show dbs
+
+use db_finance (even not haveing this DB created)
+
+db.createCollection('billingCycles')
+
+show dbs
+
+show collections
+
+db.billingCycles.insert({name: 'Janeiro/17', month: 1, year: 2017})
+
+db.billingCycles.save({name: 'Fevereiro/17', month: 2, year: 2017, day: 2})
+
+db.billingCycles.find()
+
+db.billingCycles.find().pretty()
+
+db.billingCycles.findOne()
+
+db.billingCycles.findOne({month: 2})
+
+db.billingCycles.find({$or: [{month: 1}, {day: 2}]}).pretty() 
+
+db.billingCycles.find({day:{$exists:true}}).pretty()
+
+db.billingCycles.save({name: 'Marco/17', month: 3, year: 2017, day: 3, hour: 17})
+
+db.billingCycles.find({year: 2017}).skip(1).limit(1)
+
+db.billingCycles.find({year: 2017}).skip(2).limit(1)
+
+db.billingCycles.save({name: 'Abril/17', month: 4, year: 2017, day: 4, hour: 16, credits: [{name: 'Salario', value: 5000}], debts: [{name: 'Luz', value: 100, status: 'PAGO'}, {name: 'Internet', value: 90, status: 'PENDENTE'}]})
+
+db.billingCycles.find({year: 2017}).pretty()
+
+----- advanced commands -----
+
+db.billingCycles.aggregate([{$project:{credit:{$sum:"$credits.value"}, debt: {$sum:"$debts.value"}},}, { $group:{_id:null,credit:{$sum:"$credit"},debt:{$sum:"$debt"}}}])
+
+db.billingCycles.update({$and:[{month: 1},{year:2017}]}, {$set:{credits:[{name:"Salário", value: 4000}]}})
+
+db.billingCycles.findOne() (to check the result of above command)
+
+db.billingCycles.find({credits:{$exists:true}}, {_id:0, name: 1}).pretty()
+
+-- count and remove
+db.billingCycles.count()
+
+db.billingCycles.remove({month: 2})
+
+db.billingCycles.remove({year: 2017}, 1) -- remove onlye one document from collection
+
+-- drop
+db.dropDatabase() -- eliminates the current/used database
